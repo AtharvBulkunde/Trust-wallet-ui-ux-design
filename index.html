@@ -235,10 +235,13 @@
       align-items: flex-start;
     }
     .app-wrapper {
+      display: flex;
+      flex-direction: column;
       width: min(100%, 390px);
       max-width: 390px;
-      min-height: 780px;
-      margin: clamp(10px, 5vh, 44px) auto;
+      height: 900px;
+      min-height: 900px;
+      margin: clamp(10px, 17vh, 114px) auto 0;
       background: #141416;
       border: 5px solid #57575a;
       border-radius: 58px;
@@ -314,7 +317,7 @@
       font-size: .8rem;
     }
     .notification-badge i { display: none; }
-    .notification-badge::after { content: "Add"; font-weight: 600; }
+    .notification-badge::after { content: "Recipients"; font-weight: 600; font-size: 10px; }
     .badge-dot { display: none; }
     .balance-section {
       margin-top: 16px;
@@ -380,20 +383,19 @@
       .app-wrapper { margin: 20px auto; }
     }
     @media (max-width: 420px) {
-      body { padding: 0; background: #171719; }
+      body { padding: 0 12px 12px; background: #f7f7f7; }
       .app-wrapper {
-        margin: 0;
-        width: 100%;
-        max-width: none;
-        min-height: 100dvh;
-        height: 100dvh;
-        border-radius: 0;
-        border: 0;
-        padding: 0;
+        margin: clamp(18px, 17vh, 114px) auto 0;
+        width: min(100%, 390px);
+        max-width: 390px;
+        height: 900px;
+        min-height: 900px;
+        border-radius: 58px;
+        border: 5px solid #57575a;
+        padding: 9px;
       }
-      .app-wrapper::before, .app-wrapper::after { display: none; }
-      .app-screen { height: 100dvh; min-height: 600px; }
-      .bottom-nav { left: 0; right: 0; bottom: 0; border-radius: 0; }
+      .app-screen { height: 780px; min-height: 640px; }
+      .bottom-nav { left: 9px; right: 9px; bottom: 8px; border-radius: 0 0 43px 43px; }
     }
 
     /* Recipients + linked-account sheet matching the supplied visual */
@@ -410,8 +412,9 @@
     .recipients-screen.show { display: flex; }
     .recipients-top {
       padding: 56px 18px 0;
-      flex: 1;
-      min-height: 275px;
+      height: 370px;
+      flex: 0 0 370px;
+      min-height: 370px;
       background: #171719;
     }
     .recipients-title-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:27px; }
@@ -434,8 +437,8 @@
     .recipient-more { position:absolute; z-index:3; top:183px; left:52%; width:53px; height:53px; border-radius:50%; transform:translateX(-50%); border:1px solid #ffffff18; background:#77777b83; color:#eee; box-shadow:0 0 0 7px #ffffff0a; backdrop-filter:blur(5px); cursor:pointer; }
     .accounts-sheet {
       background:#fff; color:#202024; border-radius:25px 25px 0 0; padding:8px 15px 20px;
-      min-height:240px; max-height:55%; overflow:auto; box-shadow:0 -8px 25px #0000000a;
-      transition:max-height .25s ease; flex-shrink:0;
+      height:475px; min-height:475px; max-height:475px; overflow:auto; box-shadow:0 -8px 25px #0000000a;
+      transition:max-height .25s ease; flex:0 0 475px;
     }
     .sheet-grabber { width:29px; height:4px; border-radius:4px; background:#ededee; margin:0 auto 9px; }
     .account-sheet-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
@@ -1175,7 +1178,8 @@
         const item = event.target.closest('[data-recipient]');
         if (item) showRecipientToast('Selected ' + item.dataset.recipient);
       });
-      document.getElementById('recipientMoreBtn')?.addEventListener('click', () => showRecipientToast('Choose a recipient or add an account'));
+      document.getElementById('recipientMoreBtn')?.addEventListener('click', showWalletView);
+      document.querySelector('.notification-badge')?.addEventListener('click', showRecipientsView);
       function filterAccounts() {
         const filter = document.querySelector('[data-account-filter].active')?.dataset.accountFilter || 'all';
         const query = (document.getElementById('accountSearchInput')?.value || '').toLowerCase();
