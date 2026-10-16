@@ -1137,83 +1137,7 @@
         }
 
   
-      // Reference-style Recipients view interactions
-      const recipientsScreen = document.getElementById('recipientsScreen');
-      const recipientToast = document.getElementById('recipientsToast');
-      const linkedAccountsList = document.getElementById('linkedAccountsList');
-      let recipientToastTimer;
-      function showRecipientToast(message) {
-        recipientToast.textContent = message;
-        recipientToast.classList.add('show');
-        clearTimeout(recipientToastTimer);
-        recipientToastTimer = setTimeout(() => recipientToast.classList.remove('show'), 2200);
-      }
-      function showRecipientsView() {
-        recipientsScreen.classList.add('show');
-        appScreen.classList.remove('show');
-        authScreen.style.display = 'none';
-        const adminScreen = document.getElementById('adminScreen');
-        if (adminScreen) adminScreen.style.display = 'none';
-      }
-      function showWalletView() {
-        recipientsScreen.classList.remove('show');
-        appScreen.classList.add('show');
-      }
-      document.getElementById('recipientAddBtn')?.addEventListener('click', () => {
-        const name = window.prompt('Name of the recipient');
-        if (!name || !name.trim()) return;
-        const cleanName = name.trim().slice(0, 32);
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'recipient-person';
-        button.dataset.recipient = cleanName;
-        const initials = cleanName.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
-        button.innerHTML = '<span class="person-photo"></span><strong></strong><small>@new-recipient</small>';
-        button.querySelector('.person-photo').textContent = initials;
-        button.querySelector('strong').textContent = cleanName;
-        document.getElementById('recipientGrid').appendChild(button);
-        showRecipientToast(cleanName + ' added to recipients');
-      });
-      document.getElementById('recipientGrid')?.addEventListener('click', event => {
-        const item = event.target.closest('[data-recipient]');
-        if (item) showRecipientToast('Selected ' + item.dataset.recipient);
-      });
-      document.getElementById('recipientMoreBtn')?.addEventListener('click', showWalletView);
-      document.querySelector('.notification-badge')?.addEventListener('click', showRecipientsView);
-      function filterAccounts() {
-        const filter = document.querySelector('[data-account-filter].active')?.dataset.accountFilter || 'all';
-        const query = (document.getElementById('accountSearchInput')?.value || '').toLowerCase();
-        let visible = 0;
-        linkedAccountsList.querySelectorAll('.account-row').forEach(row => {
-          const matches = (filter === 'all' || row.dataset.owner === 'my') && row.dataset.search.includes(query);
-          row.hidden = !matches;
-          if (matches) visible++;
-        });
-        document.getElementById('accountEmpty').hidden = visible > 0;
-      }
-      document.querySelectorAll('[data-account-filter]').forEach(button => {
-        button.addEventListener('click', () => {
-          document.querySelectorAll('[data-account-filter]').forEach(item => item.classList.toggle('active', item === button));
-          filterAccounts();
-        });
-      });
-      document.getElementById('accountSearchBtn')?.addEventListener('click', () => {
-        const wrap = document.getElementById('accountSearchWrap');
-        wrap.hidden = !wrap.hidden;
-        if (!wrap.hidden) document.getElementById('accountSearchInput').focus();
-        else { document.getElementById('accountSearchInput').value = ''; filterAccounts(); }
-      });
-      document.getElementById('accountSearchInput')?.addEventListener('input', filterAccounts);
-      document.querySelectorAll('.account-row').forEach(row => row.addEventListener('click', () => showRecipientToast('Selected ' + row.querySelector('.account-meta strong').textContent)));
-      document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && recipientsScreen.classList.contains('show')) showWalletView();
-      });
-      // Open the recipient reference layout on initial load. Existing wallet screens can be restored with the demo sign-in flow.
-      authScreen.style.display = 'none';
-      appScreen.classList.remove('show');
-      showRecipientsView();
-
-            totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
+      totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
         pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages || registeredUsers.length === 0;
@@ -1633,6 +1557,82 @@
         renderTransactionList('all');
         switchTab('home');
       }
+
+// Reference-style Recipients view interactions
+      const recipientsScreen = document.getElementById('recipientsScreen');
+      const recipientToast = document.getElementById('recipientsToast');
+      const linkedAccountsList = document.getElementById('linkedAccountsList');
+      let recipientToastTimer;
+      function showRecipientToast(message) {
+        recipientToast.textContent = message;
+        recipientToast.classList.add('show');
+        clearTimeout(recipientToastTimer);
+        recipientToastTimer = setTimeout(() => recipientToast.classList.remove('show'), 2200);
+      }
+      function showRecipientsView() {
+        recipientsScreen.classList.add('show');
+        appScreen.classList.remove('show');
+        authScreen.style.display = 'none';
+        const adminScreen = document.getElementById('adminScreen');
+        if (adminScreen) adminScreen.style.display = 'none';
+      }
+      function showWalletView() {
+        recipientsScreen.classList.remove('show');
+        appScreen.classList.add('show');
+      }
+      document.getElementById('recipientAddBtn')?.addEventListener('click', () => {
+        const name = window.prompt('Name of the recipient');
+        if (!name || !name.trim()) return;
+        const cleanName = name.trim().slice(0, 32);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'recipient-person';
+        button.dataset.recipient = cleanName;
+        const initials = cleanName.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+        button.innerHTML = '<span class="person-photo"></span><strong></strong><small>@new-recipient</small>';
+        button.querySelector('.person-photo').textContent = initials;
+        button.querySelector('strong').textContent = cleanName;
+        document.getElementById('recipientGrid').appendChild(button);
+        showRecipientToast(cleanName + ' added to recipients');
+      });
+      document.getElementById('recipientGrid')?.addEventListener('click', event => {
+        const item = event.target.closest('[data-recipient]');
+        if (item) showRecipientToast('Selected ' + item.dataset.recipient);
+      });
+      document.getElementById('recipientMoreBtn')?.addEventListener('click', showWalletView);
+      document.querySelector('.notification-badge')?.addEventListener('click', showRecipientsView);
+      function filterAccounts() {
+        const filter = document.querySelector('[data-account-filter].active')?.dataset.accountFilter || 'all';
+        const query = (document.getElementById('accountSearchInput')?.value || '').toLowerCase();
+        let visible = 0;
+        linkedAccountsList.querySelectorAll('.account-row').forEach(row => {
+          const matches = (filter === 'all' || row.dataset.owner === 'my') && row.dataset.search.includes(query);
+          row.hidden = !matches;
+          if (matches) visible++;
+        });
+        document.getElementById('accountEmpty').hidden = visible > 0;
+      }
+      document.querySelectorAll('[data-account-filter]').forEach(button => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-account-filter]').forEach(item => item.classList.toggle('active', item === button));
+          filterAccounts();
+        });
+      });
+      document.getElementById('accountSearchBtn')?.addEventListener('click', () => {
+        const wrap = document.getElementById('accountSearchWrap');
+        wrap.hidden = !wrap.hidden;
+        if (!wrap.hidden) document.getElementById('accountSearchInput').focus();
+        else { document.getElementById('accountSearchInput').value = ''; filterAccounts(); }
+      });
+      document.getElementById('accountSearchInput')?.addEventListener('input', filterAccounts);
+      document.querySelectorAll('.account-row').forEach(row => row.addEventListener('click', () => showRecipientToast('Selected ' + row.querySelector('.account-meta strong').textContent)));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && recipientsScreen.classList.contains('show')) showWalletView();
+      });
+      // Open the recipient reference layout on initial load. Existing wallet screens can be restored with the demo sign-in flow.
+      authScreen.style.display = 'none';
+      appScreen.classList.remove('show');
+      showRecipientsView();
 
       totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
     })();
