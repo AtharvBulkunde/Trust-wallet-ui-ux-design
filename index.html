@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Fintech App • Admin Shows Passwords</title>
+  <title>FinTrust · Recipients & Wallet</title>
   <!-- Google Font: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -225,6 +225,239 @@
     .refresh-note { font-size: 0.7rem; color: #aaa; margin-top: 8px; text-align: right; }
 
     .float-arrow { position: fixed; bottom: 170px; right: 30px; background: #5F259F; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 100; animation: bounce 1.5s infinite; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+
+
+    /* Reference-inspired mobile banking shell */
+    body {
+      background: #f7f7f7;
+      padding: clamp(8px, 2.6vw, 28px);
+      color: #171719;
+      align-items: flex-start;
+    }
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: min(100%, 390px);
+      max-width: 390px;
+      height: 900px;
+      min-height: 900px;
+      margin: clamp(10px, 17vh, 114px) auto 0;
+      background: #141416;
+      border: 5px solid #57575a;
+      border-radius: 58px;
+      padding: 9px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.24), inset 0 0 0 2px #09090a;
+      overflow: hidden;
+    }
+    .app-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 98px;
+      height: 29px;
+      border-radius: 22px;
+      background: #242426;
+      z-index: 25;
+      pointer-events: none;
+    }
+    .app-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 25px;
+      left: calc(50% + 28px);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #1c1c1e;
+      box-shadow: inset 0 0 0 2px #29292c;
+      z-index: 26;
+      pointer-events: none;
+    }
+    .auth-screen, .admin-screen { padding-top: 38px; }
+    .app-screen { height: min(780px, calc(100dvh - 36px)); min-height: 640px; }
+    .app-screen.show { overflow: hidden; }
+    .app-header {
+      position: relative;
+      background: #171719;
+      color: #f7f7f8;
+      padding: 42px 17px 16px;
+    }
+    .app-header::before {
+      content: "1:01";
+      position: absolute;
+      top: 14px;
+      left: 25px;
+      font-size: 12px;
+      letter-spacing: .15px;
+      color: #f8f8f8;
+      font-weight: 600;
+    }
+    .app-header::after {
+      content: "▮▮▮  ◔  ▰";
+      position: absolute;
+      top: 13px;
+      right: 19px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #f6f6f7;
+    }
+    .header-row { margin-top: 0; }
+    .greeting { gap: 9px; }
+    .greeting .user-avatar { display: none; }
+    .greeting h3 { font-size: 1.2rem; letter-spacing: -.55px; }
+    .notification-badge {
+      min-width: 45px;
+      justify-content: center;
+      background: #f4f4f5;
+      color: #1c1c1e;
+      border-radius: 24px;
+      padding: 7px 13px;
+      font-size: .8rem;
+    }
+    .notification-badge i { display: none; }
+    .notification-badge::after { content: "Recipients"; font-weight: 600; font-size: 10px; }
+    .badge-dot { display: none; }
+    .balance-section {
+      margin-top: 16px;
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .balance-label, .balance-amount, .eye-icon { display: none; }
+    .main-content {
+      background: #171719;
+      color: #f6f6f7;
+      padding: 10px 14px 95px;
+      scrollbar-width: none;
+    }
+    .main-content::-webkit-scrollbar { display: none; }
+    #homePanel .offers-carousel { display: none; }
+    #homePanel > .section-title:first-of-type { display: none; }
+    #homePanel > .grid-4:first-of-type { display: none; }
+    #homePanel .card, #homePanel .section-title,
+    #cryptoPanel .card, #transferPanel .card,
+    #historyPanel .card, #profilePanel .card {
+      color: #202024;
+      background: #fff;
+      border: 0;
+      box-shadow: none;
+    }
+    #homePanel .card h3, #cryptoPanel h3, .section-title h3 { color: #202024; }
+    #homePanel .card { border-radius: 22px; }
+    #homePanel .card[style*="margin-bottom: 16px"] { display: none; }
+    #homePanel .section-title { margin: 15px 4px 9px; background: transparent; color: #f6f6f7; }
+    #homePanel .section-title h3 { color: #f6f6f7; font-size: 1rem; }
+    #recentTransactionsHome { border-radius: 0; }
+    .bottom-nav {
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      bottom: 8px;
+      border-radius: 0 0 43px 43px;
+      background: rgba(255,255,255,.98);
+      border-top: 1px solid #e9e9ea;
+      padding: 11px 3px 15px;
+      z-index: 20;
+    }
+    .nav-item { color: #99999e; font-size: .63rem; width: 58px; gap: 2px; }
+    .nav-item i { font-size: 1.13rem; margin-bottom: 1px; }
+    .nav-item.active { color: #202024; }
+    .home-camera-btn {
+      position: absolute;
+      bottom: 91px;
+      right: 23px;
+      background: #262629;
+      box-shadow: 0 5px 15px #0003;
+    }
+    .float-arrow { position: absolute; right: 23px; }
+    .filter-chip.active { background: #1e1e20; }
+    .icon-btn i, .txn-icon, .crypto-icon { color: #333337; }
+    .icon-btn:active { background: #ededee; }
+    .auth-card, .admin-card { box-shadow: 0 20px 50px rgba(0,0,0,.12); }
+    @media (min-width: 700px) {
+      body { align-items: flex-start; min-height: 100vh; }
+      .app-wrapper { margin: clamp(10px, 17vh, 114px) auto 0; }
+    }
+    @media (max-width: 420px) {
+      body { padding: 0 12px 12px; background: #f7f7f7; }
+      .app-wrapper {
+        margin: clamp(18px, 17vh, 114px) auto 0;
+        width: min(100%, 390px);
+        max-width: 390px;
+        height: 900px;
+        min-height: 900px;
+        border-radius: 58px;
+        border: 5px solid #57575a;
+        padding: 9px;
+      }
+      .app-screen { height: 780px; min-height: 640px; }
+      .bottom-nav { left: 9px; right: 9px; bottom: 8px; border-radius: 0 0 43px 43px; }
+    }
+
+    /* Recipients + linked-account sheet matching the supplied visual */
+    .recipients-screen {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      flex-direction: column;
+      overflow: hidden;
+      background: #171719;
+      color: #f7f7f8;
+    }
+    .recipients-screen.show { display: flex; }
+    .recipients-top {
+      padding: 56px 18px 0;
+      height: 370px;
+      flex: 0 0 370px;
+      min-height: 370px;
+      background: #171719;
+    }
+    .recipients-title-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:27px; }
+    .recipients-title-row h2 { font-size:24px; letter-spacing:-.7px; font-weight:650; }
+    .recipient-add {
+      border:0; background:#f2f2f3; color:#252528; border-radius:22px;
+      padding:7px 13px; font-weight:600; font-size:12px; cursor:pointer;
+    }
+    .recipient-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:11px; row-gap:25px; }
+    .recipient-person { min-width:0; text-align:center; cursor:pointer; border:0; color:inherit; background:transparent; font:inherit; }
+    .recipient-person .person-photo {
+      display:flex; align-items:center; justify-content:center; width:52px; height:52px;
+      margin:0 auto 8px; border-radius:50%; overflow:hidden; background:linear-gradient(145deg,#d7d1c9,#716d69);
+      color:#222; font-size:17px; font-weight:600; box-shadow:0 0 0 1px #ffffff10;
+    }
+    .recipient-person .person-photo img { width:100%; height:100%; object-fit:cover; }
+    .recipient-person strong { display:block; font-size:12px; font-weight:500; line-height:1.5; }
+    .recipient-person small { display:block; color:#87878c; font-size:9px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .recipient-person:focus-visible { outline:2px solid #aaa; outline-offset:4px; border-radius:12px; }
+    .recipient-more { position:absolute; z-index:3; top:183px; left:52%; width:53px; height:53px; border-radius:50%; transform:translateX(-50%); border:1px solid #ffffff18; background:#77777b83; color:#eee; box-shadow:0 0 0 7px #ffffff0a; backdrop-filter:blur(5px); cursor:pointer; }
+    .accounts-sheet {
+      background:#fff; color:#202024; border-radius:25px 25px 0 0; padding:8px 15px 20px;
+      height:475px; min-height:475px; max-height:475px; overflow:auto; box-shadow:0 -8px 25px #0000000a;
+      transition:max-height .25s ease; flex:0 0 475px;
+    }
+    .sheet-grabber { width:29px; height:4px; border-radius:4px; background:#ededee; margin:0 auto 9px; }
+    .account-sheet-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .account-filter { display:flex; background:#ededee; padding:2px; border-radius:20px; gap:2px; }
+    .account-filter button { border:0; background:transparent; color:#99999e; border-radius:18px; font-size:11px; padding:5px 10px; cursor:pointer; }
+    .account-filter button.active { background:#fff; color:#222226; box-shadow:0 1px 3px #0000000a; font-weight:600; }
+    .account-search { border:0; width:28px; height:28px; border-radius:50%; background:#f8f8f8; color:#888; cursor:pointer; }
+    .account-row { display:flex; align-items:center; gap:11px; min-height:48px; padding:6px 0; cursor:pointer; border-bottom:1px solid #f4f4f4; }
+    .account-row:last-child { border-bottom:0; }
+    .account-avatar { width:32px; height:32px; flex:0 0 32px; display:flex; align-items:center; justify-content:center; border-radius:50%; overflow:hidden; color:#fff; font-size:11px; font-weight:700; background:#c9c9c9; }
+    .account-avatar img { width:100%; height:100%; object-fit:cover; }
+    .account-meta { min-width:0; flex:1; }
+    .account-meta strong { display:block; font-size:12px; color:#242427; font-weight:550; }
+    .account-meta small { display:block; font-size:10px; color:#99999e; margin-top:2px; }
+    .account-card-number { color:#a2a2a6; font-size:10px; white-space:nowrap; }
+    .account-empty { color:#8b8b90; font-size:12px; text-align:center; padding:25px 0; }
+    .recipients-toast { position:absolute; left:50%; bottom:18px; transform:translateX(-50%); padding:9px 13px; border-radius:18px; background:#262629; color:#fff; font-size:11px; white-space:nowrap; box-shadow:0 5px 20px #0002; display:none; z-index:30; }
+    .recipients-toast.show { display:block; }
+
     .float-arrow.show { opacity: 1; pointer-events: auto; }
     @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
   </style>
@@ -390,6 +623,37 @@
     </div>
 
     <!-- USER APP SCREEN -->
+    <div id="recipientsScreen" class="recipients-screen" aria-label="Recipients and linked accounts">
+      <div class="recipients-top">
+        <div class="recipients-title-row"><h2>Recipients</h2><button class="recipient-add" id="recipientAddBtn" type="button">Add</button></div>
+        <div class="recipient-grid" id="recipientGrid">
+          <button class="recipient-person" type="button" data-recipient="Sarah"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces"></span><strong>Sarah</strong><small>@sarahsdesign</small></button>
+          <button class="recipient-person" type="button" data-recipient="Pavlo"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces"></span><strong>Pavlo</strong><small>@designwithpavlo</small></button>
+          <button class="recipient-person" type="button" data-recipient="Jordan"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop&crop=faces"></span><strong>Jordan</strong><small>@jordan.creates</small></button>
+          <button class="recipient-person" type="button" data-recipient="Chris"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces"></span><strong>Chris</strong><small>@chrisgraphic</small></button>
+          <button class="recipient-person" type="button" data-recipient="Emily"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=faces"></span><strong>Emily</strong><small>@emilyartists</small></button>
+          <button class="recipient-person" type="button" data-recipient="Taylor"><span class="person-photo"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=120&h=120&fit=crop&crop=faces"></span><strong>Taylor</strong><small>@taylorcreates</small></button>
+        </div>
+        <button class="recipient-more" id="recipientMoreBtn" type="button" aria-label="Show more recipient actions"><i class="fas fa-ellipsis-h"></i></button>
+      </div>
+      <section class="accounts-sheet" id="accountsSheet" aria-label="Linked accounts">
+        <div class="sheet-grabber" aria-hidden="true"></div>
+        <div class="account-sheet-toolbar">
+          <div class="account-filter" role="group" aria-label="Account filter"><button type="button" class="active" data-account-filter="all">All</button><button type="button" data-account-filter="my">My accounts</button></div>
+          <button class="account-search" id="accountSearchBtn" type="button" aria-label="Search accounts"><i class="fas fa-search"></i></button>
+        </div>
+        <div id="accountSearchWrap" hidden><input id="accountSearchInput" class="input-field" type="search" placeholder="Search people or accounts" aria-label="Search people or accounts"></div>
+        <div id="linkedAccountsList">
+          <div class="account-row" data-owner="other" data-search="gigi hadid chase 2983"><span class="account-avatar"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=80&h=80&fit=crop&crop=faces"></span><span class="account-meta"><strong>Gigi Hadid</strong><small>Personal account</small></span><span class="account-card-number">Chase 2983</span></div>
+          <div class="account-row" data-owner="other" data-search="bella hadid mastercard 9283"><span class="account-avatar"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=80&h=80&fit=crop&crop=faces"></span><span class="account-meta"><strong>Bella Hadid</strong><small>Shopping account</small></span><span class="account-card-number">Mastercard 9283</span></div>
+          <div class="account-row" data-owner="my" data-search="everyday current account 1048"><span class="account-avatar" style="background:#27272a"><i class="fas fa-building-columns"></i></span><span class="account-meta"><strong>Everyday account</strong><small>Primary account</small></span><span class="account-card-number">•• 1048</span></div>
+          <div class="account-row" data-owner="my" data-search="savings account 6201"><span class="account-avatar" style="background:#78716c"><i class="fas fa-piggy-bank"></i></span><span class="account-meta"><strong>Savings account</strong><small>Linked account</small></span><span class="account-card-number">•• 6201</span></div>
+        </div>
+        <div class="account-empty" id="accountEmpty" hidden>No matching accounts found.</div>
+      </section>
+      <div class="recipients-toast" id="recipientsToast" role="status" aria-live="polite"></div>
+    </div>
+
     <div id="appScreen" class="app-screen">
       <div class="app-header">
         <div class="header-row">
@@ -872,7 +1136,8 @@
           adminUserList.innerHTML = html;
         }
 
-        totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
+  
+      totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
         pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages || registeredUsers.length === 0;
@@ -1292,6 +1557,82 @@
         renderTransactionList('all');
         switchTab('home');
       }
+
+// Reference-style Recipients view interactions
+      const recipientsScreen = document.getElementById('recipientsScreen');
+      const recipientToast = document.getElementById('recipientsToast');
+      const linkedAccountsList = document.getElementById('linkedAccountsList');
+      let recipientToastTimer;
+      function showRecipientToast(message) {
+        recipientToast.textContent = message;
+        recipientToast.classList.add('show');
+        clearTimeout(recipientToastTimer);
+        recipientToastTimer = setTimeout(() => recipientToast.classList.remove('show'), 2200);
+      }
+      function showRecipientsView() {
+        recipientsScreen.classList.add('show');
+        appScreen.classList.remove('show');
+        authScreen.style.display = 'none';
+        const adminScreen = document.getElementById('adminScreen');
+        if (adminScreen) adminScreen.style.display = 'none';
+      }
+      function showWalletView() {
+        recipientsScreen.classList.remove('show');
+        appScreen.classList.add('show');
+      }
+      document.getElementById('recipientAddBtn')?.addEventListener('click', () => {
+        const name = window.prompt('Name of the recipient');
+        if (!name || !name.trim()) return;
+        const cleanName = name.trim().slice(0, 32);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'recipient-person';
+        button.dataset.recipient = cleanName;
+        const initials = cleanName.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase();
+        button.innerHTML = '<span class="person-photo"></span><strong></strong><small>@new-recipient</small>';
+        button.querySelector('.person-photo').textContent = initials;
+        button.querySelector('strong').textContent = cleanName;
+        document.getElementById('recipientGrid').appendChild(button);
+        showRecipientToast(cleanName + ' added to recipients');
+      });
+      document.getElementById('recipientGrid')?.addEventListener('click', event => {
+        const item = event.target.closest('[data-recipient]');
+        if (item) showRecipientToast('Selected ' + item.dataset.recipient);
+      });
+      document.getElementById('recipientMoreBtn')?.addEventListener('click', showWalletView);
+      document.querySelector('.notification-badge')?.addEventListener('click', showRecipientsView);
+      function filterAccounts() {
+        const filter = document.querySelector('[data-account-filter].active')?.dataset.accountFilter || 'all';
+        const query = (document.getElementById('accountSearchInput')?.value || '').toLowerCase();
+        let visible = 0;
+        linkedAccountsList.querySelectorAll('.account-row').forEach(row => {
+          const matches = (filter === 'all' || row.dataset.owner === 'my') && row.dataset.search.includes(query);
+          row.hidden = !matches;
+          if (matches) visible++;
+        });
+        document.getElementById('accountEmpty').hidden = visible > 0;
+      }
+      document.querySelectorAll('[data-account-filter]').forEach(button => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-account-filter]').forEach(item => item.classList.toggle('active', item === button));
+          filterAccounts();
+        });
+      });
+      document.getElementById('accountSearchBtn')?.addEventListener('click', () => {
+        const wrap = document.getElementById('accountSearchWrap');
+        wrap.hidden = !wrap.hidden;
+        if (!wrap.hidden) document.getElementById('accountSearchInput').focus();
+        else { document.getElementById('accountSearchInput').value = ''; filterAccounts(); }
+      });
+      document.getElementById('accountSearchInput')?.addEventListener('input', filterAccounts);
+      document.querySelectorAll('.account-row').forEach(row => row.addEventListener('click', () => showRecipientToast('Selected ' + row.querySelector('.account-meta strong').textContent)));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && recipientsScreen.classList.contains('show')) showWalletView();
+      });
+      // Open the recipient reference layout on initial load. Existing wallet screens can be restored with the demo sign-in flow.
+      authScreen.style.display = 'none';
+      appScreen.classList.remove('show');
+      showRecipientsView();
 
       totalPages = Math.ceil(registeredUsers.length / pageSize) || 1;
     })();
