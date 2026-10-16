@@ -11,7 +11,7 @@ Open **[index.html](./index.html)** in a browser, or enable GitHub Pages from th
 - Reference-inspired Recipients header with avatar grid and Add interaction
 - White linked-accounts sheet with All / My accounts filters
 - Search across the visible linked-account rows
-- Responsive phone frame on desktop and full-screen mobile layout
+- Responsive phone frame on desktop and narrow screens
 - Existing FinTrust wallet prototype screens kept in the same page
 - Demo wallet interactions, transaction list, QR generation/scanning, and crypto-price UI remain in the project
 
