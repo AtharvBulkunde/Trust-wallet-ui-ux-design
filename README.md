@@ -1,35 +1,33 @@
-# Trust-wallet-ui-ux-design
-<h3>Project Bio – FinTrust Fintech Web Application</h3>
-Project Name: FinTrust – Digital Payment & Wallet System
+# FinTrust — Recipients & Wallet UI
 
-**Project Description:**
+A responsive fintech UI prototype built with **HTML, CSS, and JavaScript**. The interface has been refreshed to match the supplied reference: a dark rounded phone shell, recipient avatars, and a white linked-accounts bottom sheet.
 
-FinTrust is a simple fintech web application developed using **HTML, CSS, and JavaScript**. The project simulates a digital payment platform where users can create an account, securely log in, manage a wallet, transfer money, view transaction history, generate and scan QR codes, and explore cryptocurrency prices. It also includes an admin dashboard for managing users and viewing transaction records.
+## Preview
 
-The application is designed to demonstrate the basic concepts of front-end web development, user authentication, local storage, responsive user interface design, and interactive financial features. User data is stored locally using the browser's Local Storage, making the project suitable for learning and demonstration purposes without requiring a backend server.
+Open **[index.html](./index.html)** in a browser, or enable GitHub Pages from the repository settings to publish the static prototype.
 
-**Technologies Used:**<br>
-<img src="https://img.icons8.com/?size=100&id=20909&format=png&color=000000"><img src="https://img.icons8.com/?size=100&id=108784&format=png&color=000000"><img src="https://img.icons8.com/?size=100&id=40669&format=png&color=000000">
-* HTML5
-* CSS3
-* JavaScript (ES6)
-* Local Storage API
-* QR Code Generator
-* CoinGecko API (Cryptocurrency Prices)
-* Font Awesome Icons
+## Interface highlights
 
-**Key Features:**
+- Reference-inspired Recipients header with avatar grid and Add interaction
+- White linked-accounts sheet with All / My accounts filters
+- Search across the visible linked-account rows
+- Responsive phone frame on desktop and full-screen mobile layout
+- Existing FinTrust wallet prototype screens kept in the same page
+- Demo wallet interactions, transaction list, QR generation/scanning, and crypto-price UI remain in the project
 
-* User Registration and Login
-* Admin Dashboard
-* Wallet Balance Management
-* Money Transfer Simulation
-* Transaction History
-* QR Code Generation and Scanning
-* Cryptocurrency Price Display
-* Responsive User Interface
-* Local Data Storage
+## Technology
 
-**Objective:**
+- HTML5, CSS3, and vanilla JavaScript
+- Font Awesome icons
+- QR code generation and scanning libraries
+- CoinGecko API integration for demo crypto prices
 
-The objective of this project is to understand the fundamentals of web application development by html , c++ and javascript.
+## Run locally
+
+1. Download or clone the repository.
+2. Open `index.html` in a modern browser.
+3. For camera-based QR scanning, serve the page over localhost or HTTPS and allow camera access.
+
+## Important
+
+This is an educational UI demo. It stores prototype account data in browser local storage and is **not** a production banking service. Do not enter real banking credentials or sensitive payment information. Wallet and transfer operations are simulated in the browser; they are not connected to a real bank or payment network.
